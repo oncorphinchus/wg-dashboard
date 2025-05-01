@@ -6,6 +6,69 @@
       "host": "vpn1.example.com",
       "username": "admin",
       "interfaceName": "wg0"
+    },
+    {
+      "id": "server-2",
+      "name": "Server 2",
+      "host": "server2.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-3",
+      "name": "Server 3",
+      "host": "server3.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-4",
+      "name": "Server 4",
+      "host": "server4.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-5",
+      "name": "Server 5",
+      "host": "server5.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-6",
+      "name": "Server 6",
+      "host": "server6.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-7",
+      "name": "Server 7",
+      "host": "server7.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-8",
+      "name": "Server 8",
+      "host": "server8.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-9",
+      "name": "Server 9",
+      "host": "server9.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    },
+    {
+      "id": "server-10",
+      "name": "Server 10",
+      "host": "server10.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
     }
   ]
 } 

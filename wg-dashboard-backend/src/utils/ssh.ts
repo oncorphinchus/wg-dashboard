@@ -95,7 +95,7 @@ export function executeSshCommand(
         }
       });
 
-      stream.on('error', (err) => {
+      stream.on('error', (err: Error) => {
         reject(new Error(`Stream error: ${err.message}`));
       });
     });
