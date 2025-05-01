@@ -9,15 +9,39 @@ export async function GET() {
       throw new Error('Missing required environment variables');
     }
 
-    const response = await fetch(`${backendUrl}/servers`, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      cache: 'no-store',
-    });
+    // Try different possible endpoint paths
+    const possibleEndpoints = [
+      '/servers',
+      '/api/servers',
+      '/api/v1/servers',
+      '/v1/servers'
+    ];
 
-    if (!response.ok) {
-      throw new Error(`Backend servers fetch failed: ${response.statusText}`);
+    let response;
+    let endpointUsed;
+
+    for (const endpoint of possibleEndpoints) {
+      try {
+        console.log(`Trying endpoint: ${backendUrl}${endpoint}`);
+        response = await fetch(`${backendUrl}${endpoint}`, {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+          },
+          cache: 'no-store',
+        });
+        
+        if (response.ok) {
+          endpointUsed = endpoint;
+          console.log(`Successfully found servers at: ${backendUrl}${endpoint}`);
+          break;
+        }
+      } catch (error) {
+        console.log(`Failed to fetch from ${endpoint}:`, error);
+      }
+    }
+
+    if (!response || !response.ok) {
+      throw new Error(`Backend servers fetch failed. Tried ${possibleEndpoints.length} different endpoints`);
     }
 
     const data = await response.json();
