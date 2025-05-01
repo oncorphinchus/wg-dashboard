@@ -1,0 +1,11 @@
+{
+  "servers": [
+    {
+      "id": "server-1",
+      "name": "Primary VPN Server",
+      "host": "vpn1.example.com",
+      "username": "admin",
+      "interfaceName": "wg0"
+    }
+  ]
+} 
