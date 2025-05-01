@@ -15,14 +15,15 @@ export async function GET(
 
     console.log(`Attempting to fetch status for server ID: ${serverId}`);
 
-    // Try different possible endpoint paths
+    // Prioritize the correct endpoint based on our backend implementation
+    // then try fallbacks if needed
     const possibleEndpoints = [
+      `/api/servers/${serverId}/status`,  // This is now the primary endpoint
       `/servers/${serverId}/status`,
       `/servers-status/${serverId}`,
-      `/api/servers/${serverId}/status`,
       `/api/v1/servers/${serverId}/status`,
       `/v1/servers/${serverId}/status`,
-      `/server/${serverId}/status`,  // Try singular form too
+      `/server/${serverId}/status`,
       `/api/server/${serverId}/status`,
       `/api/v1/server/${serverId}/status`,
       `/v1/server/${serverId}/status`
