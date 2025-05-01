@@ -2,9 +2,9 @@
   "servers": [
     {
       "id": "server-1",
-      "name": "Primary VPN Server",
-      "host": "vpn1.example.com",
-      "username": "admin",
+      "name": "Frankfurt 1",
+      "host": "207.154.206.246",
+      "username": "root",
       "interfaceName": "wg0"
     },
     {
