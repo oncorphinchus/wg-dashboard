@@ -1,0 +1,51 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Rule 1: Follow the Roadmap: Adhere strictly to the phases and steps outlined in the "AI-Detailed Development Roadmap" below. Complete steps sequentially unless otherwise specified. Ask for clarification if a step is unclear.
+
+Rule 2: Technology Stack:
+
+Frontend: Next.js (React) with TypeScript.
+
+UI Library: Tailwind CSS + Shadcn/UI (or specify your preference if different).
+
+API Layer: Next.js API Routes (TypeScript) on Vercel.
+
+Management Backend: Node.js with Express (TypeScript) OR Python with Flask/FastAPI (Specify which one you prefer the AI to use consistently).
+
+SSH Communication: Use ssh2 (Node.js) or paramiko (Python).
+
+Rule 3: Code Quality & Comments:
+
+Write clean, well-formatted, and maintainable code.
+
+Add thorough comments explaining logic, especially for complex sections, API endpoints, and SSH interactions. Use TSDoc/JSDoc or Python docstrings.
+
+Use meaningful variable and function names.
+
+Rule 4: Security First:
+
+SSH Keys: Never hardcode SSH private keys. Assume keys will be provided via secure environment variables or a secrets management system on the Management Backend server. Implement logic to load keys from environment variables.
+
+API Security: Secure the communication between the Vercel API Layer and the Management Backend using a Bearer Token or API Key passed in the Authorization header. Implement checks for this token on the Management Backend.
+
+Input Validation: Sanitize and validate all inputs (API request bodies, URL parameters) on both the Vercel API and the Management Backend.
+
+Command Execution: Never directly concatenate user input into SSH commands. Use parameterized methods provided by the SSH library if available, or strictly validate and sanitize inputs used in commands.
+
+File Edits: When editing WireGuard config files, implement safeguards: create backups before editing, use atomic writes if possible, validate changes, and handle errors gracefully.
+
+Rule 5: Error Handling: Implement robust error handling for API calls, SSH connections, command execution, file operations, and data parsing. Return meaningful error messages/codes to the caller. Use try/catch blocks appropriately.
+
+Rule 6: Modularity & Structure: Maintain the separation between Frontend, Vercel API Layer, and Management Backend. Create reusable functions and components. Follow standard project structures for Next.js and the chosen backend framework.
+
+Rule 7: State Management (Frontend): Use React hooks (useState, useContext, useEffect) for state management initially. Consider Zustand or Jotai if complexity increases.
+
+Rule 8: Environment Variables: Use environment variables extensively for configuration (API URLs, API keys, SSH details placeholders). Provide clear .env.example files.
+
+Rule 9: Testing Placeholders: While full unit/integration tests might be outside the scope of initial AI generation, include comments (// TODO: Add unit tests) in relevant places.
+
+
+Rule 10: Ask Before Proceeding: If a step requires external information (like specific IP addresses, usernames, file paths you haven't provided yet) or involves a potentially destructive action (like editing system files), ask for confirmation or the necessary details before generating the code.
