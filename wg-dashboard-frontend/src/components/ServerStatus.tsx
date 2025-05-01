@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import type { ServerConfig, ServerStatus as ServerStatusType } from '@/types/wireguard';
 import { Button } from '@/components/ui/button';
 import { formatBytes, formatDate } from '@/lib/utils';
-import { getServerStatus } from '@/lib/serverApi';
 
 interface ServerStatusProps {
   server: ServerConfig;
@@ -18,9 +17,17 @@ export function ServerStatus({ server }: ServerStatusProps) {
       setLoading(true);
       setError(null);
 
-      const data = await getServerStatus(server.id);
+      // Use the Next.js API route instead of the direct backend URL
+      const response = await fetch(`/api/servers/${server.id}/status`);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch server status');
+      }
+
+      const data = await response.json();
       setStatus(data);
     } catch (err) {
+      console.error(`Error fetching status for server ${server.id}:`, err);
       setError((err as Error).message);
     } finally {
       setLoading(false);

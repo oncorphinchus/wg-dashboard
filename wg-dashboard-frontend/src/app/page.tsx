@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import type { ServerConfig } from '@/types/wireguard';
 import { ServerList } from '@/components/ServerList';
 import { ServerStatus } from '@/components/ServerStatus';
-import { checkHealth } from '@/lib/serverApi';
 
 export default function Home() {
   const [selectedServer, setSelectedServer] = useState<ServerConfig | null>(null);
@@ -13,7 +12,14 @@ export default function Home() {
   useEffect(() => {
     const fetchHealth = async () => {
       try {
-        const data = await checkHealth();
+        // Use the Next.js API route instead of the direct backend URL
+        const response = await fetch('/api/health');
+        
+        if (!response.ok) {
+          throw new Error('Health check failed');
+        }
+        
+        const data = await response.json();
         setHealth(data.status === 'ok' ? 'healthy' : 'error');
       } catch (error) {
         console.error('Health check failed:', error);

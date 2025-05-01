@@ -1,19 +1,13 @@
 import { ServerConfig } from '@/types/wireguard';
 
-const API_URL = process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_URL;
-const API_KEY = process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_API_KEY;
+// Don't throw errors during build time for missing env variables
+const API_URL = process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_URL || '';
+const API_KEY = process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_API_KEY || '';
 
-if (!API_URL) {
-  throw new Error('NEXT_PUBLIC_MANAGEMENT_BACKEND_URL is not defined');
-}
-
-if (!API_KEY) {
-  throw new Error('NEXT_PUBLIC_MANAGEMENT_BACKEND_API_KEY is not defined');
-}
-
+// Create headers with API key if available
 const headers = {
-  'Authorization': `Bearer ${API_KEY}`,
   'Content-Type': 'application/json',
+  ...(API_KEY ? { 'Authorization': `Bearer ${API_KEY}` } : {})
 };
 
 // Options to help with self-signed certificates
@@ -28,6 +22,15 @@ export const fetchOptions = {
 
 // Helper function to handle SSL errors
 async function fetchWithSSLHandling(url: string, options = {}) {
+  // Check for missing environment variables at runtime
+  if (!process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_URL) {
+    throw new Error('NEXT_PUBLIC_MANAGEMENT_BACKEND_URL is not defined');
+  }
+
+  if (!process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_API_KEY) {
+    throw new Error('NEXT_PUBLIC_MANAGEMENT_BACKEND_API_KEY is not defined');
+  }
+
   try {
     // First try the normal request
     const response = await fetch(url, { ...fetchOptions, ...options });

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { ServerConfig } from '@/types/wireguard';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/utils';
-import { getServers } from '@/lib/serverApi';
 
 interface ServerListProps {
   onServerSelect: (server: ServerConfig) => void;
@@ -17,9 +16,17 @@ export function ServerList({ onServerSelect, selectedServerId }: ServerListProps
   useEffect(() => {
     async function fetchServers() {
       try {
-        const data = await getServers();
+        // Use the Next.js API route instead of the direct backend URL
+        const response = await fetch('/api/servers');
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch servers');
+        }
+
+        const data = await response.json();
         setServers(data);
       } catch (err) {
+        console.error('Error fetching servers:', err);
         setError((err as Error).message);
       } finally {
         setLoading(false);
