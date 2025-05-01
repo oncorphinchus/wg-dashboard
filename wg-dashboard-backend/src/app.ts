@@ -18,5 +18,7 @@ app.use(authMiddleware);
 
 // Servers list endpoint
 app.use('/servers-list', serversListRouter);
+// Also map the /servers endpoint to the same router
+app.use('/servers', serversListRouter);
 
 export default app; 

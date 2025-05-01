@@ -50,7 +50,12 @@ export async function GET() {
     }
 
     const data = await response.json();
-    return NextResponse.json(data);
+    
+    // Check if the data is wrapped in a 'servers' property, and if so, extract it
+    const serversData = data.servers ? data.servers : data;
+    console.log("Servers data format:", serversData);
+    
+    return NextResponse.json(serversData);
   } catch (error) {
     console.error('Servers fetch error:', error);
     return NextResponse.json(
