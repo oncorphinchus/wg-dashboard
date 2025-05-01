@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import type { ServerConfig, ServerStatus } from '@/types/wireguard';
+import type { ServerConfig, ServerStatus as ServerStatusType } from '@/types/wireguard';
 import { Button } from '@/components/ui/button';
 import { formatBytes, formatDate } from '@/lib/utils';
+import { getServerStatus } from '@/lib/serverApi';
 
 interface ServerStatusProps {
   server: ServerConfig;
 }
 
 export function ServerStatus({ server }: ServerStatusProps) {
-  const [status, setStatus] = useState<ServerStatus | null>(null);
+  const [status, setStatus] = useState<ServerStatusType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,20 +18,7 @@ export function ServerStatus({ server }: ServerStatusProps) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_URL}/servers/${server.id}/status`,
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_API_KEY}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch server status');
-      }
-
-      const data = await response.json();
+      const data = await getServerStatus(server.id);
       setStatus(data);
     } catch (err) {
       setError((err as Error).message);

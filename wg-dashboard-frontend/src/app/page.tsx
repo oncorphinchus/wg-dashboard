@@ -4,17 +4,16 @@ import { useEffect, useState } from 'react';
 import type { ServerConfig } from '@/types/wireguard';
 import { ServerList } from '@/components/ServerList';
 import { ServerStatus } from '@/components/ServerStatus';
+import { checkHealth } from '@/lib/serverApi';
 
 export default function Home() {
   const [selectedServer, setSelectedServer] = useState<ServerConfig | null>(null);
   const [health, setHealth] = useState<'loading' | 'healthy' | 'error'>('loading');
 
   useEffect(() => {
-    const checkHealth = async () => {
+    const fetchHealth = async () => {
       try {
-        const response = await fetch('/api/health');
-        const data = await response.json();
-        
+        const data = await checkHealth();
         setHealth(data.status === 'ok' ? 'healthy' : 'error');
       } catch (error) {
         console.error('Health check failed:', error);
@@ -22,9 +21,9 @@ export default function Home() {
       }
     };
 
-    checkHealth();
+    fetchHealth();
     // Check health every 30 seconds
-    const interval = setInterval(checkHealth, 30000);
+    const interval = setInterval(fetchHealth, 30000);
     return () => clearInterval(interval);
   }, []);
 

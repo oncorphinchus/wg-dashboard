@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ServerConfig } from '@/types/wireguard';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/utils';
+import { getServers } from '@/lib/serverApi';
 
 interface ServerListProps {
   onServerSelect: (server: ServerConfig) => void;
@@ -16,17 +17,7 @@ export function ServerList({ onServerSelect, selectedServerId }: ServerListProps
   useEffect(() => {
     async function fetchServers() {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_URL}/servers`, {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_MANAGEMENT_BACKEND_API_KEY}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch servers');
-        }
-
-        const data = await response.json();
+        const data = await getServers();
         setServers(data);
       } catch (err) {
         setError((err as Error).message);
