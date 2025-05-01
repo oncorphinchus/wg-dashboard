@@ -9,8 +9,11 @@ export async function GET() {
       throw new Error('Missing required environment variables');
     }
 
+    console.log("Attempting to fetch servers from backend URL:", backendUrl);
+
     // Try different possible endpoint paths
     const possibleEndpoints = [
+      '/servers-list',  // Try our new endpoint first
       '/servers',
       '/api/servers',
       '/api/v1/servers',
@@ -29,6 +32,8 @@ export async function GET() {
           },
           cache: 'no-store',
         });
+        
+        console.log(`Attempting fetch from ${backendUrl}${endpoint}, status: ${response?.status}`);
         
         if (response.ok) {
           endpointUsed = endpoint;
