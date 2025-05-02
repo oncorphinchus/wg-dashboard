@@ -43,7 +43,7 @@ export function createSshConnection(
     });
 
     client.on('error', (err) => {
-      reject(new Error(`SSH connection error: ${err.message}`));
+      reject(new Error(`SSH connection error: ${(err as Error).message}`));
     });
 
     try {
@@ -72,7 +72,7 @@ export function executeSshCommand(
   return new Promise((resolve, reject) => {
     connection.exec(command, (err: Error | undefined, stream) => {
       if (err) {
-        reject(new Error(`Failed to execute command: ${err.message}`));
+        reject(new Error(`Failed to execute command: ${(err as Error).message}`));
         return;
       }
 
@@ -96,7 +96,7 @@ export function executeSshCommand(
       });
 
       stream.on('error', (err: Error) => {
-        reject(new Error(`Stream error: ${err.message}`));
+        reject(new Error(`Stream error: ${(err as Error).message}`));
       });
     });
   });
